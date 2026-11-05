@@ -128,7 +128,7 @@ function card(p,extra,cls){
   var on=CMP.indexOf(p.id)>-1;
   return '<article class="card'+(p.soldOut?' sold':'')+(cls?' '+cls:'')+'" data-id="'+p.id+'" tabindex="0" aria-label="'+esc(p.brand+' '+p.name)+'">'+
    '<div class="ph"><img loading="lazy" decoding="async" src="'+p.photo+'" alt="'+esc(p.brand+' '+p.name+' '+p.size)+'" width="640" height="800">'+
-   (p.bf?'<span class="badge bf-badge">-50%</span>':(p.familyGroup?'<span class="badge">'+esc(p.familyGroup)+'</span>':''))+
+   (p.bf&&p.bfOff>0?'<span class="badge bf-badge">-'+p.bfOff+'%</span>':(p.familyGroup?'<span class="badge">'+esc(p.familyGroup)+'</span>':''))+
    '<button class="cmpbox'+(on?' on':'')+'" data-cmp="'+p.id+'" aria-label="Comparar" title="Comparar">'+(on?ICON.check:ICON.cmp)+'</button>'+
    (lowStock(p)?'<span class="lowb">Últimas unidades</span>':'')+(OFFICIAL[p.brand]?OFFB:'')+
    (p.soldOut?'<span class="sold-tag">ESGOTADO</span>':'')+(extra||'')+'</div>'+
@@ -180,7 +180,7 @@ function detail(p){
     var mp=payLink(p);
     h+='<div class="buy"><div><div class="price">'+(p.priceFromLabel?'<s>De '+esc(p.priceFromLabel)+'</s>':'')+esc(p.priceLabel)+'</div><div class="inst lg">'+instText(p,true)+'</div>'+(lowStock(p)?'<div class="lowline">Últimas unidades em estoque</div>':'')+'</div>'+
        '<div class="buybtns"><a class="btn wa" href="'+waLink(p)+'" target="_blank" rel="noopener">'+ICON.wa+'Comprar pelo WhatsApp</a>'+
-       (window.BagdaCart?BagdaCart.button({key:"pf:"+p.id,name:p.brand+" "+p.name,variant:p.ml+" ml",price:p.price,payLink:mp,img:/^(\/|https?:)/.test(p.photo)?p.photo:p.photo},"pill"):"")+
+       (window.BagdaCart?BagdaCart.button({key:"pf:"+p.id,name:p.brand+" "+p.name,variant:p.ml+" ml",price:p.price,payLink:mp,img:/^(\/|https?:)/.test(p.photo)?p.photo :p.photo},"pill"):"")+
        (mp?'<a class="btn gold mp" href="'+esc(mp)+'" target="_blank" rel="noopener">Pagar · PIX ou cartão</a>':'')+'</div>'+(mp?'<div class="paynote">PIX, débito ou crédito em até 12x · Frete combinado no WhatsApp</div>':'')+'</div>';
   }
   h+='<div class="payline">PIX, dinheiro, débito ou crédito em até '+(X.installments.max||12)+'x'+(X.installments.noInterest?' sem juros':'')+'. Loja física no Brás · 08:00–17:30.</div>';
